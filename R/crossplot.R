@@ -29,11 +29,11 @@
 #' data(mtcars)
 #' crossplot_basic(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
 #' @export
-crossplot_basic <- function(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
-                       label.var = NULL,
-                       title.out = NULL, xlabel = NULL,
-                       ylabel = NULL, shapes = c(1, 2, 0, 5, 6),
-                       colors = c("blue", "red", "green")) {
+crossplot <- function(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
+                      label.var = NULL,
+                      title.out = NULL, xlabel = NULL,
+                      ylabel = NULL, shapes = c(1, 2, 0, 5, 6),
+                      colors = c("blue", "red", "green")) {
 
     ##if xlabel or ylabel are null, use the x and y variable names
     if (is.null(xlabel)) xlabel <- x.var
