@@ -6,7 +6,8 @@ Description: Easily create cross-sectional plots with ggplot2.
 Depends:
     R (>= 3.3.2),
     ggplot2 (>= 2.2.0),
-    cowplot (>= 0.7.0)
+    cowplot (>= 0.7.0),
+    stats
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
@@ -14,5 +15,12 @@ Imports:
     ggrepel,
     stringr,
     lazyeval,
-    magrittr
+    magrittr,
+    tibble,
+    Hmisc,
+    dplyr,
+    car,
+    lmtest,
+    sandwich,
+    broom
 RoxygenNote: 5.0.1

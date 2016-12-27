@@ -8,8 +8,10 @@
 #'
 #' crosspolotr allows for easy creatation of cross-sectional plots
 #' @importFrom magrittr %>%
-#' @import ggplot2 cowplot
+#' @import ggplot2 cowplot stats
 "_PACKAGE"
 
+##For magrittr dot
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 
 

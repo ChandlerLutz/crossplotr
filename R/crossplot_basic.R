@@ -24,6 +24,7 @@
 #' options, see \url{http://www.cookbook-r.com/Graphs/Shapes_and_line_types/}
 #' @param colors character vector with the colors for different points. Defaults
 #' to \code{c("blue", "red", "green")}
+#' @return a \code{ggplot2} plot with the cross-sectional output
 #' @examples
 #' data(mtcars)
 #' crossplot_basic(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")

@@ -37,6 +37,9 @@ options, see \url{http://www.cookbook-r.com/Graphs/Shapes_and_line_types/}}
 \item{colors}{character vector with the colors for different points. Defaults
 to \code{c("blue", "red", "green")}}
 }
+\value{
+a \code{ggplot2} plot with the cross-sectional output
+}
 \description{
 Create a basic cross-sectional plot using standard evaluation
 of the variable names
