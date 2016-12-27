@@ -108,7 +108,7 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             sd.x = sd.x, sd.y = sd.y,
                             stringsAsFactors = FALSE)
     ##Use sprintf to format
-    stats.out[] <- lapply(., function(x) sprintf(sprintf.format, x))
+    stats.out[] <- lapply(stats.out, function(x) sprintf(sprintf.format, x))
     ##Add parentheses around the standard errors
     stats.out <- stats.out %>%
         dplyr::mutate(intercept.se <- paste0("(", intercept.se, ")")) %>%
