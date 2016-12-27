@@ -48,22 +48,26 @@ crossplot_print_stats <- function(p, stats = c("slope", "r.squared"),
                                   xlabel = xlabel, ylabel = ylabel,
                                   reg.label.se = reg.label.se)
 
+
+    print(plot.stats$stats.out$intercept)
     ##Add the regression line
-    p <- p + geom_abline(slope = plot.stats$stats.out$intercept,
-                         intercept = plot.stats$stats.out$intercept,
+    p <- p + geom_abline(slope = plot.stats$plot.stats$slope,
+                         intercept = plot.stats$plot.stats$intercept,
                          color = reg.color, linetype = reg.linetype)
 
     ##get the pretty plots
     plot.stats.labels <- plot.stats$plot.stats.labels
     ##Only use the variables in stats as requested by the user
-    ##Only use the variables in stats as requested by the user
-    plot.stats.labels <- plot.stats.labels[c("slope", "r.squared")]
+    plot.stats.labels <- plot.stats.labels[stats]
+
     plot.stats.labels <- paste(plot.stats.labels, collapse = "\n")
 
-    p.out <- p + draw_label(plot.stats.labels, x = text.pos[1], y = text.pos[2])
+    ##Add the text to the plot. Set hjust and vjust to zero
+    ##To make it left aligned
+    p.out <- p + draw_label(label = plot.stats.labels, x = text.pos[1], y = text.pos[2],
+                            hjust = 0, vjust = 0)
 
     return(p.out)
-
 }
 
 
