@@ -33,10 +33,7 @@
 crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             sprintf.format = "%.2f") {
 
-    ##If weighted, there must be a size variable pre-defined
-    if (weighted & any(grepl("size", names(mappings)))) {
-        stop("For weighted estimation, a size variable needs to be defined in the ggplot")
-    }
+
 
     ##Get a named character vector with all of the mappings
     mappings <- p$mapping %>% as.character
@@ -44,6 +41,11 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     layer.mappings <- lapply(p$layers, function(x) x$mapping %>% as.character)
     layer.mappings <- do.call("c", layer.mappings)
     mappings <- c(mappings, layer.mappings)
+
+    ##If weighted, there must be a size variable pre-defined
+    if (weighted & any(grepl("size", names(mappings)))) {
+        stop("For weighted estimation, a size variable needs to be defined in the ggplot")
+    }
 
     ##Define the x and y variables
     x.var <- mappings["x"]
