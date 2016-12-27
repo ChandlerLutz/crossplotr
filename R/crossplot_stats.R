@@ -34,7 +34,7 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             sprintf.format = "%.2f") {
 
     ##If weighted, there must be a size variable pre-defined
-    if (weighted & grepl("size" %in% names(mappings))) {
+    if (weighted & grepl("size", names(mappings))) {
         stop("For weighted estimation, a size variable needs to be defined in the ggplot")
     }
 
