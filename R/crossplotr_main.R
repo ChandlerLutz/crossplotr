@@ -11,7 +11,7 @@
 #' @import ggplot2 cowplot stats
 "_PACKAGE"
 
-##For magrittr dot
+##For magrittr dot. From https://github.com/tidyverse/magrittr/issues/29
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 
 
