@@ -34,7 +34,7 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             sprintf.format = "%.2f") {
 
     ##If weighted, there must be a size variable pre-defined
-    if (weighted & grepl("size", names(mappings))) {
+    if (weighted & any(grepl("size", names(mappings)))) {
         stop("For weighted estimation, a size variable needs to be defined in the ggplot")
     }
 
@@ -49,10 +49,6 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     x.var <- mappings["x"]
     y.var <- mappings["y"]
     if (weighted) size.var <- mappings["size"]
-
-    ##If xlabel and ylabel are not set, use x.var and y.var
-    if (is.null(xlabel)) xlabel <- x.var
-    if (is.null(ylabel)) ylabel <- y.var
 
     ##The data
     temp.data <- p$data %>%
