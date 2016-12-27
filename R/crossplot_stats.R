@@ -111,8 +111,8 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     stats.out[] <- lapply(stats.out, function(x) sprintf(sprintf.format, x))
     ##Add parentheses around the standard errors
     stats.out <- stats.out %>%
-        dplyr::mutate(intercept.se <- paste0("(", intercept.se, ")")) %>%
-        dplyr::mutate(slope.se <- paste0("(", slope.se, ")"))
+        dplyr::mutate(intercept.se = paste0("(", intercept.se, ")")) %>%
+        dplyr::mutate(slope.se = paste0("(", slope.se, ")"))
 
     return(stats.out)
 
