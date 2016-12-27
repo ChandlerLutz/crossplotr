@@ -27,7 +27,7 @@
 #' @return a \code{ggplot2} plot with the cross-sectional output
 #' @examples
 #' data(mtcars)
-#' crossplot_basic(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
+#' crossplot(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
 #' @export
 crossplot <- function(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
                       label.var = NULL,

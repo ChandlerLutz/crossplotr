@@ -12,29 +12,44 @@
 #' are also permitted
 #'
 #'
-#' @param p the plot
+#' @param p a crossplot \code{ggplot2} plot. Can be generated from
+#'     \code{crossplot}
 #' @param log.reg logical variable that indicates if the regression
-#' should be run in logs. Defaults to \code{FALSE}
-#' @param weighted logical variable that indicates if the the regression
-#' will be weighted by the \code{size} variable from the plot. Defaults
-#' to \code{FALSE}
-#' @param sprintf.format the string format for the stats in \code{sprintf}.
-#' @return a list of two \code{data.frame}s with the crossplot stats. The
-#' first element of the list, \code{plot.stats} holds a \code{data.frame} of the
-#' stats in numeric format. The second element of the list \code{plot.stats.pretty}
-#' holds a \code{data.frame} of the stats in a pretty stringr format
-#' using \code{sprintf}. The \code{data.frame} will include the following variables:
-#' \code{"slope"}, \code{"slope.se"}, \code{"intercept"}, \code{"intercept.se"},
-#' \code{"r.squared"}, \code{"adj.r.squared"}, \code{"mean.x"}, \code{"mean.y"}
-#' \code{"var.x"}, \code{"var.y"}, \code{"sd.x"}, \code{"sd.y"}. The default values
-#' are \code{c("slope", "slope.se", "r.squared")}. The standard errors for the slope
-#' and the intercept will be printed in parentheses next to the coefficient. If
-#' the means, variances, or standard deviations are requested by the user,
-#' \code{xlabel} and \code{ylabel} (see below) will be used for the labels.
-#' Standard errors will be heteroskedasticity-robust white standard errors
+#'     should be run in logs. Defaults to \code{FALSE}
+#' @param weighted logical variable that indicates if the the
+#'     regression will be weighted by the \code{size} variable from
+#'     the plot. Defaults to \code{FALSE}
+#' @param sprintf.format the string format for the stats in
+#'     \code{sprintf}.
+#' @param xlabel a string with the name for the x-variable. Defaults
+#'     to \code{NULL}. If set to \code{NULL}, the variable name from
+#'     the x-axis will be used
+#' @param ylabel a string with the name for the y-variable. Defaults
+#'     to \code{NULL}. If set to \code{NULL}, the variable name from
+#'     the y-axis will be used
+#' @param reg.label.se logical. If set to \code{TRUE}, the regression
+#'     standard errors will be printed
+#' @return a list of two \code{data.frame}s with the crossplot
+#'     stats. The first element of the list, \code{plot.stats} holds a
+#'     \code{data.frame} of the stats in numeric format. The second
+#'     element of the list \code{plot.stats.pretty} holds a
+#'     \code{data.frame} of the stats in a pretty stringr format using
+#'     \code{sprintf}. The \code{data.frame} will include the
+#'     following variables: \code{"slope"}, \code{"slope.se"},
+#'     \code{"intercept"}, \code{"intercept.se"}, \code{"r.squared"},
+#'     \code{"adj.r.squared"}, \code{"mean.x"}, \code{"mean.y"}
+#'     \code{"var.x"}, \code{"var.y"}, \code{"sd.x"},
+#'     \code{"sd.y"}. The standard errors for the slope and the
+#'     intercept will be printed in parentheses next to the
+#'     coefficient in the labels. For the labels of the means,
+#'     variances, or standard deviations, \code{xlabel} and
+#'     \code{ylabel} will be used for the labels.  Standard errors
+#'     will be heteroskedasticity-robust white standard errors
 #' @export
 crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
-                            sprintf.format = "%.2f") {
+                            sprintf.format = "%.2f",
+                            xlabel = NULL, ylabel = NULL,
+                            reg.label.se = TRUE) {
 
 
 
@@ -54,6 +69,11 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     x.var <- mappings["x"]
     y.var <- mappings["y"]
     if (weighted) size.var <- mappings["size"]
+
+
+    ##If xlable and ylabel are undefined, use x.var and y.var
+    if (is.null(xlabel)) xlabel = x.var
+    if (is.null(ylabel)) ylabel = y.var
 
     ##The data
     temp.data <- p$data %>%
@@ -118,6 +138,38 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
         dplyr::mutate(intercept.se = paste0("(", intercept.se, ")")) %>%
         dplyr::mutate(slope.se = paste0("(", slope.se, ")"))
 
-    return(list(plot.stats = stats.out, plot.stats.pretty = stats.out.pretty))
+    ## -- Now get the labels -- ##
+    stats.out.labels <- stats.out.pretty
+    ##if reg.label.se is true, add the standard error to the slope and intercept
+    if (reg.label.se) {
+        stats.out.labels$intercept <- paste(stats.out.labels$intercept,
+                                            stats.out.labels$intercept.se)
+        stats.out.labels$slope <- paste(stats.out.labels$slope,
+                                        stats.out.labels$slope.se)
+    }
+    stats.out.labels$intercept.se <- NULL
+    stats.out.labels$slope.se <- NULL
+    ##Now add the labels to all of the variable
+    stats.out.labels$intercept = paste0("Intercept = ", stats.out.labels$intercept)
+    stats.out.labels$slope = paste0("Slope = ", stats.out.labels$slope)
+    stats.out.labels$r.squared = paste0("R-Squared = ", stats.out.labels$r.squared)
+    stats.out.labels$adj.r.squared = paste0("Adj R-Squared = ",
+                                            stats.out.labels$adj.r.squared)
+    stats.out.labels$mean.x = paste0("Mean(", xlabel, ") = ",
+                                     stats.out.labels$mean.x)
+    stats.out.labels$mean.y = paste0("Mean(", ylabel, ") = ",
+                                     stats.out.labels$mean.y)
+    stats.out.labels$var.x = paste0("Var(", xlabel, ") = ",
+                                     stats.out.labels$var.x)
+    stats.out.labels$var.y = paste0("Var(", ylabel, ") = ",
+                                    stats.out.labels$var.y)
+    stats.out.labels$sd.x = paste0("Sd(", xlabel, ") = ",
+                                     stats.out.labels$sd.x)
+    stats.out.labels$sd.y = paste0("Sd(", ylabel, ") = ",
+                                   stats.out.labels$sd.y)
+
+    ##Return
+    return(list(plot.stats = stats.out, plot.stats.pretty = stats.out.pretty,
+                plot.stats.labels = stats.out.labels))
 
 }

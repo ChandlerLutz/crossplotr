@@ -46,6 +46,6 @@ of the variable names
 }
 \examples{
 data(mtcars)
-crossplot_basic(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
+crossplot(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
 }
 

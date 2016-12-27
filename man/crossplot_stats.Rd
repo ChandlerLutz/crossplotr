@@ -5,34 +5,51 @@
 \title{Basic Statistics for regression varaibles and plotting}
 \usage{
 crossplot_stats(p, log.reg = FALSE, weighted = FALSE,
-  sprintf.format = "\%.2f")
+  sprintf.format = "\%.2f", xlabel = NULL, ylabel = NULL,
+  reg.label.se = TRUE)
 }
 \arguments{
-\item{p}{the plot}
+\item{p}{a crossplot \code{ggplot2} plot. Can be generated from
+\code{crossplot}}
 
 \item{log.reg}{logical variable that indicates if the regression
 should be run in logs. Defaults to \code{FALSE}}
 
-\item{weighted}{logical variable that indicates if the the regression
-will be weighted by the \code{size} variable from the plot. Defaults
-to \code{FALSE}}
+\item{weighted}{logical variable that indicates if the the
+regression will be weighted by the \code{size} variable from
+the plot. Defaults to \code{FALSE}}
 
-\item{sprintf.format}{the string format for the stats in \code{sprintf}.}
+\item{sprintf.format}{the string format for the stats in
+\code{sprintf}.}
+
+\item{xlabel}{a string with the name for the x-variable. Defaults
+to \code{NULL}. If set to \code{NULL}, the variable name from
+the x-axis will be used}
+
+\item{ylabel}{a string with the name for the y-variable. Defaults
+to \code{NULL}. If set to \code{NULL}, the variable name from
+the y-axis will be used}
+
+\item{reg.label.se}{logical. If set to \code{TRUE}, the regression
+standard errors will be printed}
 }
 \value{
-a list of two \code{data.frame}s with the crossplot stats. The
-first element of the list, \code{plot.stats} holds a \code{data.frame} of the
-stats in numeric format. The second element of the list \code{plot.stats.pretty}
-holds a \code{data.frame} of the stats in a pretty stringr format
-using \code{sprintf}. The \code{data.frame} will include the following variables:
-\code{"slope"}, \code{"slope.se"}, \code{"intercept"}, \code{"intercept.se"},
-\code{"r.squared"}, \code{"adj.r.squared"}, \code{"mean.x"}, \code{"mean.y"}
-\code{"var.x"}, \code{"var.y"}, \code{"sd.x"}, \code{"sd.y"}. The default values
-are \code{c("slope", "slope.se", "r.squared")}. The standard errors for the slope
-and the intercept will be printed in parentheses next to the coefficient. If
-the means, variances, or standard deviations are requested by the user,
-\code{xlabel} and \code{ylabel} (see below) will be used for the labels.
-Standard errors will be heteroskedasticity-robust white standard errors
+a list of two \code{data.frame}s with the crossplot
+    stats. The first element of the list, \code{plot.stats} holds a
+    \code{data.frame} of the stats in numeric format. The second
+    element of the list \code{plot.stats.pretty} holds a
+    \code{data.frame} of the stats in a pretty stringr format using
+    \code{sprintf}. The \code{data.frame} will include the
+    following variables: \code{"slope"}, \code{"slope.se"},
+    \code{"intercept"}, \code{"intercept.se"}, \code{"r.squared"},
+    \code{"adj.r.squared"}, \code{"mean.x"}, \code{"mean.y"}
+    \code{"var.x"}, \code{"var.y"}, \code{"sd.x"},
+    \code{"sd.y"}. The standard errors for the slope and the
+    intercept will be printed in parentheses next to the
+    coefficient in the labels. For the labels of the means,
+    variances, or standard deviations, \code{xlabel} and
+    \code{ylabel} will be used for the labels.  Standard errors
+    will be heteroskedasticity-robust white standard errors
 }
 \description{
 This function will plot either an unweighted or weighted
