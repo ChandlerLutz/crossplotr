@@ -19,8 +19,11 @@
 #' will be weighted by the \code{size} variable from the plot. Defaults
 #' to \code{FALSE}
 #' @param sprintf.format the string format for the stats in \code{sprintf}.
-#' @return a \code{data.frame} with the crossplot stats. The \code{data.frame}
-#' will include the following variables:
+#' @return a list of two \code{data.frame}s with the crossplot stats. The
+#' first element of the list, \code{plot.stats} holds a \code{data.frame} of the
+#' stats in numeric format. The second element of the list \code{plot.stats.pretty}
+#' holds a \code{data.frame} of the stats in a pretty stringr format
+#' using \code{sprintf}. The \code{data.frame} will include the following variables:
 #' \code{"slope"}, \code{"slope.se"}, \code{"intercept"}, \code{"intercept.se"},
 #' \code{"r.squared"}, \code{"adj.r.squared"}, \code{"mean.x"}, \code{"mean.y"}
 #' \code{"var.x"}, \code{"var.y"}, \code{"sd.x"}, \code{"sd.y"}. The default values
@@ -108,12 +111,13 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             sd.x = sd.x, sd.y = sd.y,
                             stringsAsFactors = FALSE)
     ##Use sprintf to format
-    stats.out[] <- lapply(stats.out, function(x) sprintf(sprintf.format, x))
+    stats.out.pretty <- stats.out
+    stats.out.pretty[] <- lapply(stats.out.pretty, function(x) sprintf(sprintf.format, x))
     ##Add parentheses around the standard errors
-    stats.out <- stats.out %>%
+    stats.out.pretty <- stats.out.pretty %>%
         dplyr::mutate(intercept.se = paste0("(", intercept.se, ")")) %>%
         dplyr::mutate(slope.se = paste0("(", slope.se, ")"))
 
-    return(stats.out)
+    return(list(plot.stats = stats.out, plot.stats.pretty = stats.out.pretty))
 
 }
