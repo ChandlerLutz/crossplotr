@@ -7,7 +7,8 @@ of the variable names}
 \usage{
 crossplot(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
   label.var = NULL, title.out = NULL, xlabel = NULL, ylabel = NULL,
-  shapes = c(1, 2, 0, 5, 6), colors = c("blue", "red", "green"))
+  shapes = c(1, 2, 0, 5, 6), colors = c("blue", "red", "green"),
+  points.alpha = 1)
 }
 \arguments{
 \item{data}{the data to be plotted}
@@ -16,14 +17,14 @@ crossplot(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
 
 \item{y.var}{string with the y axis variable}
 
-\item{size.var}{string with the size (weighting) variable. Defaults to
-\code{NULL}}
+\item{size.var}{string with the size (weighting) variable. Defaults
+to \code{NULL}}
 
-\item{shapes.var}{string with the shapes (different shapes for different)
-points variable. Defaults to \code{NULL}}
+\item{shapes.var}{string with the shapes (different shapes for
+different) points variable. Defaults to \code{NULL}}
 
-\item{label.var}{string with the names of the points that can be used
-with \code{geom_text} or \code{geom_text_repel}}
+\item{label.var}{string with the names of the points that can be
+used with \code{geom_text} or \code{geom_text_repel}}
 
 \item{title.out}{string with the the title for plot}
 
@@ -31,11 +32,17 @@ with \code{geom_text} or \code{geom_text_repel}}
 
 \item{ylabel}{string with the ylabel}
 
-\item{shapes}{numeric vector with the shapes of the points. For shape
-options, see \url{http://www.cookbook-r.com/Graphs/Shapes_and_line_types/}}
+\item{shapes}{numeric vector with the shapes of the points. For
+shape options, see
+\url{http://www.cookbook-r.com/Graphs/Shapes_and_line_types/}}
 
-\item{colors}{character vector with the colors for different points. Defaults
-to \code{c("blue", "red", "green")}}
+\item{colors}{character vector with the colors for different
+points. Defaults to \code{c("blue", "red", "green")}}
+
+\item{points.alpha}{\code{numeric(1)} indicating the alpha to be
+applied to the points. Default value is \code{1}. Setting
+\code{points.alpha = 0.4} is helpful when plotting labels with
+the points}
 }
 \value{
 a \code{ggplot2} plot with the cross-sectional output
