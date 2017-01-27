@@ -6,7 +6,7 @@
 \usage{
 crossplot_print_stats(p, stats = c("slope", "r.squared"), text.pos,
   sprintf.format = "\%.2f", xlabel = NULL, ylabel = NULL,
-  log.reg = TRUE, weighted = FALSE, reg.label.se = TRUE,
+  log.reg = FALSE, weighted = FALSE, reg.label.se = TRUE,
   reg.color = "black", reg.linetype = "solid")
 }
 \arguments{

@@ -37,14 +37,15 @@
 crossplot_print_stats <- function(p, stats = c("slope", "r.squared"),
                                   text.pos, sprintf.format = "%.2f",
                                   xlabel = NULL, ylabel = NULL,
-                                  log.reg = TRUE, weighted = FALSE,
+                                  log.reg = FALSE, weighted = FALSE,
                                   reg.label.se = TRUE,
                                   reg.color = "black", reg.linetype = "solid"
                                   ) {
 
 
     ##get the stats
-    plot.stats <- crossplot_stats(p, weighted = weighted, sprintf.format = sprintf.format,
+    plot.stats <- crossplot_stats(p, log.reg = log.reg, weighted = weighted,
+                                  sprintf.format = sprintf.format,
                                   xlabel = xlabel, ylabel = ylabel,
                                   reg.label.se = reg.label.se)
 
