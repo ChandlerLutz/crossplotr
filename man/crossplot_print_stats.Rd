@@ -7,7 +7,7 @@
 crossplot_print_stats(p, stats = c("slope", "r.squared"), text.pos,
   sprintf.format = "\%.2f", xlabel = NULL, ylabel = NULL,
   log.reg = FALSE, weighted = FALSE, reg.label.se = TRUE,
-  reg.color = "black", reg.linetype = "solid")
+  reg.color = "black", reg.linetype = "solid", mean.label.se = FALSE)
 }
 \arguments{
 \item{p}{a crossplot \code{ggplot2} plot. Can be generated from
@@ -45,6 +45,9 @@ regression line}
 
 \item{reg.linetype}{a string with the \code{ggplot2} linetype for
 the regression line}
+
+\item{mean.label.se}{logical If set to \code{TRUE}, the standard
+errors for the means will be printed.}
 }
 \value{
 a \code{ggplot2} plot with the regression line and label

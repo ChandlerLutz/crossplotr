@@ -31,6 +31,8 @@
 #'     regression line
 #' @param reg.linetype a string with the \code{ggplot2} linetype for
 #'     the regression line
+#' @param mean.label.se logical If set to \code{TRUE}, the standard
+#'     errors for the means will be printed.
 #' @return a \code{ggplot2} plot with the regression line and label
 #'     added
 #' @export
@@ -39,7 +41,8 @@ crossplot_print_stats <- function(p, stats = c("slope", "r.squared"),
                                   xlabel = NULL, ylabel = NULL,
                                   log.reg = FALSE, weighted = FALSE,
                                   reg.label.se = TRUE,
-                                  reg.color = "black", reg.linetype = "solid"
+                                  reg.color = "black", reg.linetype = "solid",
+                                  mean.label.se = FALSE
                                   ) {
 
 
@@ -47,7 +50,8 @@ crossplot_print_stats <- function(p, stats = c("slope", "r.squared"),
     plot.stats <- crossplot_stats(p, log.reg = log.reg, weighted = weighted,
                                   sprintf.format = sprintf.format,
                                   xlabel = xlabel, ylabel = ylabel,
-                                  reg.label.se = reg.label.se)
+                                  reg.label.se = reg.label.se,
+                                  mean.label.se = mean.label.se)
 
 
     print(plot.stats$stats.out$intercept)

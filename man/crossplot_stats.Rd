@@ -6,7 +6,7 @@
 \usage{
 crossplot_stats(p, log.reg = FALSE, weighted = FALSE,
   sprintf.format = "\%.2f", xlabel = NULL, ylabel = NULL,
-  reg.label.se = TRUE)
+  reg.label.se = TRUE, mean.label.se = FALSE)
 }
 \arguments{
 \item{p}{a crossplot \code{ggplot2} plot. Can be generated from
@@ -32,6 +32,9 @@ the y-axis will be used}
 
 \item{reg.label.se}{logical. If set to \code{TRUE}, the regression
 standard errors will be printed}
+
+\item{mean.label.se}{logical. If set to \code{TRUE}, the standard
+errors for the means will be printed.}
 }
 \value{
 a list of two \code{data.frame}s with the crossplot

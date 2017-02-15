@@ -29,6 +29,8 @@
 #'     the y-axis will be used
 #' @param reg.label.se logical. If set to \code{TRUE}, the regression
 #'     standard errors will be printed
+#' @param mean.label.se logical. If set to \code{TRUE}, the standard
+#'     errors for the means will be printed.
 #' @return a list of two \code{data.frame}s with the crossplot
 #'     stats. The first element of the list, \code{plot.stats} holds a
 #'     \code{data.frame} of the stats in numeric format. The second
@@ -49,7 +51,7 @@
 crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             sprintf.format = "%.2f",
                             xlabel = NULL, ylabel = NULL,
-                            reg.label.se = TRUE) {
+                            reg.label.se = TRUE, mean.label.se = FALSE) {
 
 
 
@@ -95,20 +97,25 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     if (weighted) {
         ##use weighted values
         mod <- lm(formula.model, temp.data, weights = temp.data[[size.var]])
-        mean.x <- Hmisc::wtd.mean(temp.data[[x.var]], temp.data[[size.var]])
-        mean.y <- Hmisc::wtd.mean(temp.data[[y.var]], temp.data[[size.var]])
+        mod.mean.x <- reg_mean(temp.data, x.var, size.var)
+        mod.mean.y <- reg_mean(temp.data, y.var, size.var)
         var.x <- Hmisc::wtd.var(temp.data[[x.var]], temp.data[[size.var]])
         var.y <- Hmisc::wtd.var(temp.data[[y.var]], temp.data[[size.var]])
     } else {
         mod <- lm(formula.model, temp.data)
-        mean.x <- mean(temp.data[[x.var]])
-        mean.y <- mean(temp.data[[y.var]])
+        mod.mean.x <- reg_mean(temp.data, x.var)
+        mod.mean.y <- reg_mean(temp.data, y.var)
         var.x <- var(temp.data[[x.var]])
         var.y <- var(temp.data[[y.var]])
     }
     ##the standard deviations of the variables
+    mean.x <- mod.mean.x[1, 1]
+    se.mean.x <- mod.mean.x[1, 2]
+    mean.y <- mod.mean.y[1, 1]
+    se.mean.y <- mod.mean.y[1, 2]
     sd.x <- sqrt(var.x)
     sd.y <- sqrt(var.y)
+
 
     ##the white standard erorrs
     mod.coeftest <- lmtest::coeftest(mod, vcov = sandwich::sandwich) %>%
@@ -129,6 +136,8 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
                             mean.x = mean.x, mean.y = mean.y,
                             var.x = var.x, var.y = var.y,
                             sd.x = sd.x, sd.y = sd.y,
+                            se.mean.x = se.mean.x,
+                            se.mean.y = se.mean.y,
                             stringsAsFactors = FALSE)
     ##Use sprintf to format
     stats.out.pretty <- stats.out
@@ -136,7 +145,9 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     ##Add parentheses around the standard errors
     stats.out.pretty <- stats.out.pretty %>%
         dplyr::mutate(intercept.se = paste0("(", intercept.se, ")")) %>%
-        dplyr::mutate(slope.se = paste0("(", slope.se, ")"))
+        dplyr::mutate(slope.se = paste0("(", slope.se, ")")) %>%
+        dplyr::mutate(se.mean.x = paste0("(", se.mean.x, ")")) %>%
+        dplyr::mutate(se.mean.y = paste0("(", se.mean.y, ")"))
 
     ## -- Now get the labels -- ##
     stats.out.labels <- stats.out.pretty
@@ -147,8 +158,20 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
         stats.out.labels$slope <- paste(stats.out.labels$slope,
                                         stats.out.labels$slope.se)
     }
+
+    ##if mean.label.se is TRUE, print the mean standard errors
+    if (mean.label.se) {
+        stats.out.labels$mean.x <- paste(stats.out.labels$mean.x,
+                                         stats.out.labels$se.mean.x)
+        stats.out.labels$mean.y <- paste(stats.out.labels$mean.y,
+                                         stats.out.labels$se.mean.y)
+    }
+
+
     stats.out.labels$intercept.se <- NULL
     stats.out.labels$slope.se <- NULL
+    stats.out.labels$se.mean.x <- NULL
+    stats.out.labels$se.mean.y <- NULL
     ##Now add the labels to all of the variable
     stats.out.labels$intercept = paste0("Intercept = ", stats.out.labels$intercept)
     stats.out.labels$slope = paste0("Slope = ", stats.out.labels$slope)
