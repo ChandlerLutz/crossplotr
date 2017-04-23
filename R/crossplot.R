@@ -32,13 +32,29 @@
 #' @return a \code{ggplot2} plot with the cross-sectional output
 #' @examples
 #' data(mtcars)
-#' crossplot(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
+#' crossplot(mtcars, x.var = "mpg", y.var = "hp", size.var = "wt",
+#'           shapes.var = "cyl")
 #' @export
 crossplot <- function(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
                       label.var = NULL,
-                      title.out = NULL, xlabel = NULL,
+                      title = NULL, xlabel = NULL,
                       ylabel = NULL, shapes = c(1, 2, 0, 5, 6),
                       colors = c("blue", "red", "green"), points.alpha = 1) {
+
+    ##Make sure data is a dataframe
+    if (!is.data.frame(data)) stop("Error: data is not a data frame")
+    data <- as.data.frame(data)
+
+    ##Make sure x.var, y.var, size.var, shapes.var, and label.var
+    ##are character strings
+    if (!is.character(x.var) || !is.character(y.var))
+        stop("Error: x.var and y.var need to be character strings")
+    if (!is.null(size.var) && !is.character(size.var))
+        stop("Error: size.var needs to be a character string")
+    if (!is.null(shapes.var) && !is.character(shapes.var))
+        stop("Error: shapes.var needs to be a character string")
+    if (!is.null(label.var) && !is.character(label.var))
+        stop("Error: shapes.var needs to be a character string")
 
     ##if xlabel or ylabel are null, use the x and y variable names
     if (is.null(xlabel)) xlabel <- x.var
@@ -90,8 +106,8 @@ crossplot <- function(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
         labs(x = xlabel, y = ylabel)
 
     ##If necessary, add the title
-    if (!is.null(title.out)) {
-        p <- p + ggtitle(title.out)
+    if (!is.null(title)) {
+        p <- p + ggtitle(title)
     }
 
     p <- p +

@@ -6,7 +6,7 @@
 of the variable names}
 \usage{
 crossplot(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
-  label.var = NULL, title.out = NULL, xlabel = NULL, ylabel = NULL,
+  label.var = NULL, title = NULL, xlabel = NULL, ylabel = NULL,
   shapes = c(1, 2, 0, 5, 6), colors = c("blue", "red", "green"),
   points.alpha = 1)
 }
@@ -26,8 +26,6 @@ different) points variable. Defaults to \code{NULL}}
 \item{label.var}{string with the names of the points that can be
 used with \code{geom_text} or \code{geom_text_repel}}
 
-\item{title.out}{string with the the title for plot}
-
 \item{xlabel}{string with the xlabel. Defualts to \code{NULL}}
 
 \item{ylabel}{string with the ylabel}
@@ -43,6 +41,8 @@ points. Defaults to \code{c("blue", "red", "green")}}
 applied to the points. Default value is \code{1}. Setting
 \code{points.alpha = 0.4} is helpful when plotting labels with
 the points}
+
+\item{title.out}{string with the the title for plot}
 }
 \value{
 a \code{ggplot2} plot with the cross-sectional output
@@ -53,6 +53,7 @@ of the variable names
 }
 \examples{
 data(mtcars)
-crossplot(mtcars, x.var = "mpg", y.var = "hp", shapes.var = "cyl")
+crossplot(mtcars, x.var = "mpg", y.var = "hp", size.var = "wt",
+          shapes.var = "cyl")
 }
 
