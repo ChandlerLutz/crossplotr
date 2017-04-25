@@ -76,6 +76,7 @@ get_outlier_logicals <- function(x, num.outliers = NULL, percentile.outliers = N
 #'     \code{c("x", "y")}
 #' @return a \code{data.frame} with the plot data for the outliers
 #' @examples
+#' data(mtcars)
 #' p <- ggplot(mtcars, aes(x = hp, y = mpg)) + geom_point(aes(size = wt))
 #' ##Get the outliers -- defaults to outliers for just "x" and "y"
 #' crossplot_outliers(p, num.outliers = 2)
@@ -112,7 +113,7 @@ crossplot_outliers <- function(p, num.outliers = NULL, percentile.outliers = NUL
     }
 
     ##Get just the data that we need for the outlier indices
-    outliers.logicals <- all.data[, mappings]
+    outliers.logicals <- all.data[, mappings, drop = FALSE]
     ##apply the f_get_outliers function
     outliers.logicals[] <- lapply(outliers.logicals, f_get_outliers)
     ##sum across rows and get a logical
@@ -124,8 +125,3 @@ crossplot_outliers <- function(p, num.outliers = NULL, percentile.outliers = NUL
     return(all.data.outliers)
 
 }
-
-
-
-
-

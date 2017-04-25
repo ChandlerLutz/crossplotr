@@ -32,6 +32,7 @@ imput either imput the number of desired outliers,
 outliers \code{percentile.outliers}, but not both
 }
 \examples{
+data(mtcars)
 p <- ggplot(mtcars, aes(x = hp, y = mpg)) + geom_point(aes(size = wt))
 ##Get the outliers -- defaults to outliers for just "x" and "y"
 crossplot_outliers(p, num.outliers = 2)
