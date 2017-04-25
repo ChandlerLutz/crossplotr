@@ -17,7 +17,7 @@
 #'     different) points variable. Defaults to \code{NULL}
 #' @param label.var string with the names of the points that can be
 #'     used with \code{geom_text} or \code{geom_text_repel}
-#' @param title.out string with the the title for plot
+#' @param title string with the the title for plot
 #' @param xlabel string with the xlabel. Defualts to \code{NULL}
 #' @param ylabel string with the ylabel
 #' @param shapes numeric vector with the shapes of the points. For

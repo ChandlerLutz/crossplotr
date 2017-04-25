@@ -26,6 +26,8 @@ different) points variable. Defaults to \code{NULL}}
 \item{label.var}{string with the names of the points that can be
 used with \code{geom_text} or \code{geom_text_repel}}
 
+\item{title}{string with the the title for plot}
+
 \item{xlabel}{string with the xlabel. Defualts to \code{NULL}}
 
 \item{ylabel}{string with the ylabel}
@@ -41,8 +43,6 @@ points. Defaults to \code{c("blue", "red", "green")}}
 applied to the points. Default value is \code{1}. Setting
 \code{points.alpha = 0.4} is helpful when plotting labels with
 the points}
-
-\item{title.out}{string with the the title for plot}
 }
 \value{
 a \code{ggplot2} plot with the cross-sectional output
