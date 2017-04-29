@@ -37,7 +37,8 @@
 #'     added
 #' @export
 crossplot_print_stats <- function(p, stats = c("slope", "r.squared"),
-                                  text.pos, sprintf.format = "%.2f",
+                                  text.pos,
+                                  sprintf.format = "%.2f",
                                   xlabel = NULL, ylabel = NULL,
                                   log.reg = FALSE, weighted = FALSE,
                                   reg.label.se = TRUE,
