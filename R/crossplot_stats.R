@@ -70,19 +70,22 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     ##Define the x and y variables
     x.var <- mappings["x"]
     y.var <- mappings["y"]
-    if (weighted) size.var <- mappings["size"]
+    if (weighted) {
+        size.var <- mappings["size"]
+    } else {
+        size.var <- NA
+    }
 
-
-    ##If xlable and ylabel are undefined, use x.var and y.var
+    ##If xlabel and ylabel are undefined, use x.var and y.var
     if (is.null(xlabel)) xlabel = x.var
     if (is.null(ylabel)) ylabel = y.var
 
     ##The data
-    temp.data <- p$data %>%
-        ##remove observations where x or y are missing
-        dplyr::filter_(lazyeval::interp(~!is.na(x), x = as.name(x.var))) %>%
-        dplyr::filter_(lazyeval::interp(~!is.na(y), y = as.name(y.var)))
+    temp.data <- p$data
 
+    ##Remove any cases with the missing values
+    ##in the plot variables  -- see utils.R
+    temp.data <- data_no_na_values(temp.data)
 
     ##The regresison formula
     if (log.reg) {

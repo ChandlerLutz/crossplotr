@@ -6,9 +6,9 @@
 of the variable names}
 \usage{
 crossplot(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
-  label.var = NULL, title = NULL, xlabel = NULL, ylabel = NULL,
-  shapes = c(1, 2, 0, 5, 6), colors = c("blue", "red", "green"),
-  points.alpha = 1)
+  label.var = NULL, control.vars = NULL, title = NULL, xlabel = NULL,
+  ylabel = NULL, shapes = c(1, 2, 0, 5, 6), colors = c("blue", "red",
+  "green"), points.alpha = 1)
 }
 \arguments{
 \item{data}{the data to be plotted}
@@ -26,6 +26,15 @@ different) points variable. Defaults to \code{NULL}}
 \item{label.var}{string with the names of the points that can be
 used with \code{geom_text} or \code{geom_text_repel}}
 
+\item{control.vars}{a character vector with the names of variables
+that will be used as controls via the Frisch–Waugh–Lovell
+theorem. The result will be a plot (an AV Plot) and statistics
+where the variables in \code{control.vars} are partialed
+out. These variables must be present in the original
+dataset. Note: if \code{control.vars} is set, an attribute will
+be added to the returned plot and will be named
+\code{control.vars}}
+
 \item{title}{string with the the title for plot}
 
 \item{xlabel}{string with the xlabel. Defualts to \code{NULL}}
@@ -41,7 +50,7 @@ points. Defaults to \code{c("blue", "red", "green")}}
 
 \item{points.alpha}{\code{numeric(1)} indicating the alpha to be
 applied to the points. Default value is \code{1}. Setting
-\code{points.alpha = 0.4} is helpful when plotting labels with
+\code{points.alpha = 0.7} is helpful when plotting labels with
 the points}
 }
 \value{
@@ -55,5 +64,10 @@ of the variable names
 data(mtcars)
 crossplot(mtcars, x.var = "mpg", y.var = "hp", size.var = "wt",
           shapes.var = "cyl")
+##Control for (partial out) qsec
+p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
+              shapes.var = "cyl", control.vars = "qsec")
+print(p)
+p$control.vars
 }
 

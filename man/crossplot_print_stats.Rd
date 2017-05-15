@@ -4,14 +4,18 @@
 \alias{crossplot_print_stats}
 \title{A convience function to print the plot stats and a regression line}
 \usage{
-crossplot_print_stats(p, stats = c("slope", "r.squared"), text.pos,
-  sprintf.format = "\%.2f", xlabel = NULL, ylabel = NULL,
-  log.reg = FALSE, weighted = FALSE, reg.label.se = TRUE,
-  reg.color = "black", reg.linetype = "solid", mean.label.se = FALSE)
+crossplot_print_stats(p, text.pos, stats = c("slope", "r.squared"),
+  reg.color = "black", reg.linetype = "solid", log.reg = FALSE,
+  weighted = FALSE, sprintf.format = "\%.2f", xlabel = NULL,
+  ylabel = NULL, reg.label.se = TRUE, mean.label.se = FALSE)
 }
 \arguments{
 \item{p}{a crossplot \code{ggplot2} plot. Can be generated from
 \code{crossplot}}
+
+\item{text.pos}{the text position to be passed to
+\code{cowplot::draw_label()} as a numeric vector of length 2
+with \code{x} and \code{y}.}
 
 \item{stats}{character vector with the stats that will be printed
 (in order). Possible statistics include \code{"slope"},
@@ -20,34 +24,31 @@ crossplot_print_stats(p, stats = c("slope", "r.squared"), text.pos,
 \code{"var.y"}, \code{"sd.x"}, \code{"sd.y"}. Defualt is
 \code{c("slope", "r.squared")}}
 
-\item{text.pos}{the text position to be passed to
-\code{cowplot::draw_label()}}
-
-\item{sprintf.format}{character string with the \code{sprintf}
-format}
-
-\item{xlabel}{the label for the x-axis variable}
-
-\item{ylabel}{the label for the y-axis variable}
-
-\item{log.reg}{logical. If set to \code{TRUE}, the regression will
-be estimated in logs}
-
-\item{weighted}{logical. If set to \code{TRUE}, the regression and
-all statistics will be weighted using the \code{size} variable
-form the \code{ggplot2} plot}
-
-\item{reg.label.se}{logical. If set to \code{TRUE}, the regression
-standard errors will be printed}
-
 \item{reg.color}{a string with the \code{ggplot2} color for the
 regression line}
 
 \item{reg.linetype}{a string with the \code{ggplot2} linetype for
 the regression line}
 
+\item{log.reg}{logical. If set to \code{TRUE}, the regression will
+be estimated in logs. Defualt is \code{FALSE}}
+
+\item{weighted}{logical. If set to \code{TRUE}, the regression and
+all statistics will be weighted using the \code{size} variable
+form the \code{ggplot2} plot. Default is \code{FALSE}}
+
+\item{sprintf.format}{character string with the \code{sprintf}
+format.}
+
+\item{xlabel}{the label for the x-axis variable}
+
+\item{ylabel}{the label for the y-axis variable}
+
+\item{reg.label.se}{logical. If set to \code{TRUE}, the regression
+standard errors will be printed. Default is \code{TRUE}}
+
 \item{mean.label.se}{logical If set to \code{TRUE}, the standard
-errors for the means will be printed.}
+errors for the means will be printed. Default is \code{FALSE}}
 }
 \value{
 a \code{ggplot2} plot with the regression line and label
@@ -55,5 +56,25 @@ a \code{ggplot2} plot with the regression line and label
 }
 \description{
 A convience function to print the plot stats and a regression line
+}
+\examples{
+data(mtcars)
+p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
+               shapes.var = "cyl")
+##Print weighted regression line and weighted stats
+crossplot_print_stats(p, text.pos = c(200, 25), weighted = TRUE)
+##Print unweighted regression line and unweighted stats
+crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE)
+
+## -- Controlling for qsec weighted by wt -- ##
+
+##First see the results using a normal regression
+mod <- lm(mpg ~ hp + qsec, mtcars, weights = wt)
+library(sandwich); library(lmtest)
+coeftest(mod, vcov = sandwich)
+##Now in a plot
+p2 <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
+                shapes.var = "cyl", control.vars = "qsec")
+crossplot_print_stats(p2, text.pos = c(0, 7), weighted = TRUE)
 }
 

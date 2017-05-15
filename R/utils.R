@@ -41,3 +41,25 @@ reg_mean <- function(df, var, weights.var = NULL) {
     return(mod.out)
 
 }
+
+
+#' Check that the data does not have and NA values
+#'
+#' Return a dataframe with no NA values for the variables of interest
+#'
+#'
+#' @param data the data set
+#' @param env the environment. Defaults to \code{parent.frame}
+#' @return a data frame with no missing values for the variables of
+#'     interest
+data_no_na_values <- function(data, env = parent.frame()) {
+
+    vars <- c(env$x.var, env$y.var)
+    if (!is.null(env$size.var) && !is.na(env$size.var))
+        vars <- c(vars, env$size.var)
+    if (!is.null(env$control.vars) && !any(is.na(env$control.vars)))
+        vars <- c(vars, env$control.vars)
+
+    return(data[complete.cases(data[, vars]), ])
+}
+

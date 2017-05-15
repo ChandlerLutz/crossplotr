@@ -4,41 +4,52 @@
 \alias{crossplot_outliers}
 \title{To get the outlier data form a ggplot}
 \usage{
-crossplot_outliers(p, num.outliers = NULL, percentile.outliers = NULL,
-  plot.vars = c("x", "y"))
+crossplot_outliers(x, vars = NULL, num.outliers = NULL,
+  percentile.outliers = NULL)
 }
 \arguments{
-\item{p}{a crossplot \code{ggplot2} plot. Can be generated from
-\code{crossplot}}
+\item{x}{a \code{ggplot2} plot or a \code{data.frame}. Can be
+generated from \code{crossplot}.}
 
-\item{num.outliers}{the number of outliers. Defaults to \code{NULL}}
+\item{vars}{the variables for which the outliers will be
+calculated. If \code{x} is a \code{ggplot2} object, use the
+variable names in the underlying data}
 
-\item{percentile.outliers}{the percentile used to measure
-outliers. Defaults to \code{NULL}}
+\item{num.outliers}{the number of outliers for each variable in
+\code{vars}. Defaults to \code{NULL}}
 
-\item{plot.vars}{the plot variables for which the outliers will be
-calculated. These variables are from \code{ggplot2} mappings
-and can include \code{x}, \code{y}, \code{size}. The default is
-\code{c("x", "y")}}
+\item{percentile.outliers}{the percentile used to measure outliers
+for each variable in \code{vars}. Defaults to \code{NULL}}
 }
 \value{
 a \code{data.frame} with the plot data for the outliers
 }
 \description{
-Based of plot variables from the user, \code{crossplot_outliers}
-returns the plot data corresponding to the outliers. The user can
-imput either imput the number of desired outliers,
-\code{num.outliers}, or the percentile corresponding to the
-outliers \code{percentile.outliers}, but not both
+This function is useful for getting outliers and labeling outlying
+points on a plot. Based a \code{data.frame} or \code{ggplot} and
+variables from the user, \code{crossplot_outliers} returns the
+corresponding outliers. The user can input either the number of
+desired outliers, \code{num.outliers}, or the percentile
+corresponding to the outliers \code{percentile.outliers}, but not
+both.
 }
 \examples{
 data(mtcars)
+##Get the outliers for hp and and mpg from mtcars
+crossplot_outliers(mtcars,vars = c("hp","mpg"), percentile.outliers = 0.05)
+crossplot_outliers(mtcars,vars = c("hp","mpg"), num.outliers = 2)
+
+##Outliers from a ggplot
 p <- ggplot(mtcars, aes(x = hp, y = mpg)) + geom_point(aes(size = wt))
-##Get the outliers -- defaults to outliers for just "x" and "y"
-crossplot_outliers(p, num.outliers = 2)
-crossplot_outliers(p, percentile.outliers = .05)
-##Specifying the plot variables
-crossplot_outliers(p, num.outliers = 2, plot.vars = c("x", "y", "size"))
-crossplot_outliers(p, percentile.outliers = .05, plot.vars = c("x", "y", "size"))
+crossplot_outliers(p, vars = c("hp", "mpg"), num.outliers = 2)
+crossplot_outliers(p, vars = c("mpg", "hp", "wt"), percentile.outliers = .05)
+
+## -- Full Example using crossplot() and labels -- ##
+mtcars$name <- rownames(mtcars)
+mtcars.outliers <- crossplot_outliers(mtcars, vars = c("mpg", "hp"), num.outliers = 2)
+p <- crossplot(mtcars, x.var = "mpg", y.var = "hp", size.var = "wt",
+              shapes.var = "cyl", label.var = "name", points.alpha = 0.7) +
+     geom_text(data = mtcars.outliers)
+print(p)
 }
 
