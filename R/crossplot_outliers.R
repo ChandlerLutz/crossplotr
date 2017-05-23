@@ -12,7 +12,9 @@
 #' This function will return a logical index where outliers are set to
 #' \code{TRUE}. The user can imput either imput the number of desired
 #' outliers, \code{num.outliers}, or the percentile corresponding to
-#' the outliers \code{percentile.outliers}, but not both
+#' the outliers \code{percentile.outliers}, but not both.
+#'
+#' Note: \code{NA} values will be replaced with the mean value.
 #'
 #' @param x a numeric vector
 #' @param num.outliers the number of outliers. Defaults to \code{NULL}
@@ -25,6 +27,9 @@ get_outlier_logicals <- function(x, num.outliers = NULL, percentile.outliers = N
 
     if (!is.null(num.outliers) & !is.null(percentile.outliers))
         stop("Error: get_outlier_logical() only uses either num.outliers or percentile.outliers")
+
+    ##Replace NAs with the mean value
+    x[is.na(x)] <- rep(mean(x, na.rm = TRUE), sum(is.na(x)))
 
     ##Sort x
     x.sorted <- sort(x)
@@ -65,7 +70,7 @@ get_outlier_logicals <- function(x, num.outliers = NULL, percentile.outliers = N
 #' corresponding outliers. The user can input either the number of
 #' desired outliers, \code{num.outliers}, or the percentile
 #' corresponding to the outliers \code{percentile.outliers}, but not
-#' both.
+#' both. Note: \code{NA} values will be replaced with the mean value.
 #'
 #' @param x a \code{ggplot2} plot or a \code{data.frame}. Can be
 #'     generated from \code{crossplot}.
@@ -95,6 +100,14 @@ get_outlier_logicals <- function(x, num.outliers = NULL, percentile.outliers = N
 #'               shapes.var = "cyl", label.var = "name", points.alpha = 0.7) +
 #'      geom_text(data = mtcars.outliers)
 #' print(p)
+#'
+#' ##If there are missing values in vars, these will be replaced by the
+#' ##mean so they are less likely to affect the outliers
+#' data(mtcars)
+#' mtcars$mpg[7:12] <- rep(NA, 6)
+#' ##Get the outliers for hp and and mpg from mtcars
+#' crossplot_outliers(mtcars,vars = c("hp","mpg"), percentile.outliers = 0.05)
+#' crossplot_outliers(mtcars,vars = c("hp","mpg"), num.outliers = 2)
 #' @export
 crossplot_outliers <- function(x, vars = NULL, num.outliers = NULL,
                                percentile.outliers = NULL) {
@@ -105,7 +118,7 @@ crossplot_outliers <- function(x, vars = NULL, num.outliers = NULL,
 
     if (is.ggplot(x)) {
         ##ggplot2 object -- get data from the plot
-        all.data <- p$data
+        all.data <- x$data
     } else if (is.data.frame(x)) {
         all.data <- as.data.frame(x)
 

@@ -31,7 +31,7 @@ variables from the user, \code{crossplot_outliers} returns the
 corresponding outliers. The user can input either the number of
 desired outliers, \code{num.outliers}, or the percentile
 corresponding to the outliers \code{percentile.outliers}, but not
-both.
+both. Note: \code{NA} values will be replaced with the mean value.
 }
 \examples{
 data(mtcars)
@@ -51,5 +51,13 @@ p <- crossplot(mtcars, x.var = "mpg", y.var = "hp", size.var = "wt",
               shapes.var = "cyl", label.var = "name", points.alpha = 0.7) +
      geom_text(data = mtcars.outliers)
 print(p)
+
+##If there are missing values in vars, these will be replaced by the
+##mean so they are less likely to affect the outliers
+data(mtcars)
+mtcars$mpg[7:12] <- rep(NA, 6)
+##Get the outliers for hp and and mpg from mtcars
+crossplot_outliers(mtcars,vars = c("hp","mpg"), percentile.outliers = 0.05)
+crossplot_outliers(mtcars,vars = c("hp","mpg"), num.outliers = 2)
 }
 

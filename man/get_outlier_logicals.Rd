@@ -21,6 +21,9 @@ a logical index where outliers are set to \code{TRUE}
 This function will return a logical index where outliers are set to
 \code{TRUE}. The user can imput either imput the number of desired
 outliers, \code{num.outliers}, or the percentile corresponding to
-the outliers \code{percentile.outliers}, but not both
+the outliers \code{percentile.outliers}, but not both.
+}
+\details{
+Note: \code{NA} values will be replaced with the mean value.
 }
 
