@@ -7,7 +7,7 @@
 crossplot_print_stats(p, text.pos, stats = c("slope", "r.squared"),
   reg.color = "black", reg.linetype = "solid", log.reg = FALSE,
   weighted = FALSE, sprintf.format = "\%.2f", xlabel = NULL,
-  ylabel = NULL, reg.label.se = TRUE, mean.label.se = FALSE)
+  ylabel = NULL, reg.label.se = TRUE, mean.label.se = FALSE, ...)
 }
 \arguments{
 \item{p}{a crossplot \code{ggplot2} plot. Can be generated from
@@ -49,6 +49,10 @@ standard errors will be printed. Default is \code{TRUE}}
 
 \item{mean.label.se}{logical If set to \code{TRUE}, the standard
 errors for the means will be printed. Default is \code{FALSE}}
+
+\item{...}{Other arguments to be passed to
+\code{cowplot::draw_label}. See \code{?cowplot::draw_label} for
+options and more details.}
 }
 \value{
 a \code{ggplot2} plot with the regression line and label
@@ -65,6 +69,11 @@ p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
 crossplot_print_stats(p, text.pos = c(200, 25), weighted = TRUE)
 ##Print unweighted regression line and unweighted stats
 crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE)
+
+##passing other arguments to cowplot::draw_label.
+##See ?cowplot::draw_label for more details
+crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE,
+                      fontface = "bold")
 
 ## -- Controlling for qsec weighted by wt -- ##
 

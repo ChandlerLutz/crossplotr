@@ -35,6 +35,9 @@
 #'     standard errors will be printed. Default is \code{TRUE}
 #' @param mean.label.se logical If set to \code{TRUE}, the standard
 #'     errors for the means will be printed. Default is \code{FALSE}
+#' @param ... Other arguments to be passed to
+#'     \code{cowplot::draw_label}. See \code{?cowplot::draw_label} for
+#'     options and more details.
 #' @return a \code{ggplot2} plot with the regression line and label
 #'     added
 #' @examples
@@ -45,6 +48,11 @@
 #' crossplot_print_stats(p, text.pos = c(200, 25), weighted = TRUE)
 #' ##Print unweighted regression line and unweighted stats
 #' crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE)
+#'
+#' ##passing other arguments to cowplot::draw_label.
+#' ##See ?cowplot::draw_label for more details
+#' crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE,
+#'                       fontface = "bold")
 #'
 #' ## -- Controlling for qsec weighted by wt -- ##
 #'
@@ -69,9 +77,7 @@ crossplot_print_stats <- function(p,
                                   sprintf.format = "%.2f",
                                   xlabel = NULL, ylabel = NULL,
                                   reg.label.se = TRUE,
-                                  mean.label.se = FALSE
-                                  ) {
-
+                                  mean.label.se = FALSE, ...) {
 
     ##get the stats
     plot.stats <- crossplot_stats(p, log.reg = log.reg, weighted = weighted,
@@ -97,7 +103,7 @@ crossplot_print_stats <- function(p,
     ##Add the text to the plot. Set hjust and vjust to zero
     ##To make it left aligned
     p.out <- p + draw_label(label = plot.stats.labels, x = text.pos[1], y = text.pos[2],
-                            hjust = 0, vjust = 0)
+                            hjust = 0, vjust = 0, ...)
 
     return(p.out)
 }
