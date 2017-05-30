@@ -52,7 +52,7 @@ crossplot <- function(data, x.var, y.var, size.var = NULL, shapes.var = NULL,
                       label.var = NULL, control.vars = NULL,
                       title = NULL, xlabel = NULL,
                       ylabel = NULL, shapes = c(1, 2, 0, 5, 6),
-                      colors = c("blue", "red", "green"), points.alpha = 1) {
+                      colors = c("blue", "red", "darkgreen"), points.alpha = 1) {
 
     ##Make sure data is a dataframe
     if (!is.data.frame(data)) stop("Error: data is not a data frame")
