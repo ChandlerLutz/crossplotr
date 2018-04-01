@@ -23,4 +23,3 @@ an object from \code{lmtest::coeftest} with the output from
 return is the output from \code{lmtest::coeftest} which includes
 the mean, the standard error, the t-stat and p-value
 }
-

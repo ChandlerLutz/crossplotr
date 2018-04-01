@@ -26,4 +26,3 @@ the outliers \code{percentile.outliers}, but not both.
 \details{
 Note: \code{NA} values will be replaced with the mean value.
 }
-

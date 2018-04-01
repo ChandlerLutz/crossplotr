@@ -8,4 +8,7 @@
 \description{
 crosspolotr allows for easy creatation of cross-sectional plots
 }
+\author{
+\strong{Maintainer}: Chandler Lutz \email{cl.eco@cbs.dk}
 
+}

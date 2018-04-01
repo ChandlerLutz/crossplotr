@@ -70,4 +70,3 @@ p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
 print(p)
 p$control.vars
 }
-

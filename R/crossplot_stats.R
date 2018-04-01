@@ -56,7 +56,9 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
 
 
     ##Get a named character vector with all of the mappings
-    mappings <- p$mapping %>% as.character
+    mappings.names <- names(p$mapping)
+    mappings <- p$mapping %>% as.character %>% gsub("~", "", x = .) %>%
+      setNames(mappings.names)
     ##The other layers -- just looking for size here
     layer.mappings <- lapply(p$layers, function(x) x$mapping %>% as.character)
     layer.mappings <- do.call("c", layer.mappings)

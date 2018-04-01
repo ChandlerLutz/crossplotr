@@ -60,4 +60,3 @@ mtcars$mpg[7:12] <- rep(NA, 6)
 crossplot_outliers(mtcars,vars = c("hp","mpg"), percentile.outliers = 0.05)
 crossplot_outliers(mtcars,vars = c("hp","mpg"), num.outliers = 2)
 }
-

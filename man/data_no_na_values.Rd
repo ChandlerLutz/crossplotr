@@ -18,4 +18,3 @@ a data frame with no missing values for the variables of
 \description{
 Return a dataframe with no NA values for the variables of interest
 }
-

@@ -59,4 +59,3 @@ This function will plot either an unweighted or weighted
 regression line and print summary statistics. Log regressions
 are also permitted
 }
-

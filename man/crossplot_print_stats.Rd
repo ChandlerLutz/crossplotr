@@ -86,4 +86,3 @@ p2 <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
                 shapes.var = "cyl", control.vars = "qsec")
 crossplot_print_stats(p2, text.pos = c(0, 7), weighted = TRUE)
 }
-
