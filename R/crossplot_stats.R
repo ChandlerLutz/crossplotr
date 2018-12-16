@@ -60,8 +60,10 @@ crossplot_stats <- function(p, log.reg = FALSE, weighted = FALSE,
     mappings <- p$mapping %>% as.character %>% gsub("~", "", x = .) %>%
       setNames(mappings.names)
     ##The other layers -- just looking for size here
-    layer.mappings <- lapply(p$layers, function(x) x$mapping %>% as.character)
-    layer.mappings <- do.call("c", layer.mappings)
+    layer.mappings <- p$layers[[1]]$mapping
+    layer.mappings.names <- names(p$layers[[1]]$mapping)
+    layer.mappings <- p$layers[[1]]$mapping %>% as.character %>% gsub("~", "", x = .) %>%
+      setNames(layer.mappings.names)
     mappings <- c(mappings, layer.mappings)
 
     ##If weighted, there must be a size variable pre-defined

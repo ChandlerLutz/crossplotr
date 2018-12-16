@@ -16,13 +16,23 @@ test_that("crossplot example works", {
   ##Control for (partial out) qsec
   p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
                  shapes.var = "cyl", control.vars = "qsec")
-  print(p)
-  p$control.vars
+  expect_true("ggplot" %in% class(p))
+})
+
+test_that("crossplot_stats works", {
+  data(mtcars)
+  p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
+                 shapes.var = "cyl", control.vars = "qsec")
+  expect_true("ggplot" %in% class(p))
+  plot.stats <- crossplot_stats(p, weighted = TRUE)
+  expect_true("data.frame" %in% class(plot.stats[[1]]))
+
 })
 
 
-test_that("crossplot_print_stats works", {
 
+test_that("crossplot_print_stats works", {
+  data(mtcars)
   p <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
                  shapes.var = "cyl")
   ##Print weighted regression line and weighted stats
@@ -32,8 +42,9 @@ test_that("crossplot_print_stats works", {
 
   ##passing other arguments to cowplot::draw_label.
   ##See ?cowplot::draw_label for more details
-  crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE,
-                        fontface = "bold")
+  p <- crossplot_print_stats(p, text.pos = c(200, 25), weighted = FALSE,
+                             fontface = "bold")
+  expect_true("ggplot" %in% class(p))
 
   ## -- Controlling for qsec weighted by wt -- ##
 
@@ -45,6 +56,6 @@ test_that("crossplot_print_stats works", {
   p2 <- crossplot(mtcars, x.var = "hp", y.var = "mpg", size.var = "wt",
                   shapes.var = "cyl", control.vars = "qsec")
   crossplot_print_stats(p2, text.pos = c(0, 7), weighted = TRUE)
-
+  expect_true("ggplot" %in% class(p2))
 })
 
